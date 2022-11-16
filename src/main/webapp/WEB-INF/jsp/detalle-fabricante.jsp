@@ -48,7 +48,7 @@
 				<label>Código</label>
 			</div>
 			<div style="float: none;width: auto;overflow: hidden;">
-				<input value="<%= optFab.get().getCodigo() %>" readonly="readonly"/>
+				<input style="border:none" value="<%= optFab.get().getCodigo() %>" readonly="readonly"/>
 			</div> 
 		</div>
 		<div style="margin-top: 6px;" class="clearfix">
@@ -56,7 +56,7 @@
 				<label>Nombre</label>
 			</div>
 			<div style="float: none;width: auto;overflow: hidden;">
-				<input value="<%= optFab.get().getNombre() %>" readonly="readonly"/>
+				<input style="border:none" value="<%= optFab.get().getNombre() %>" readonly="readonly"/>
 			</div> 
 		</div>
 		

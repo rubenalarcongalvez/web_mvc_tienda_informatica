@@ -197,5 +197,87 @@ public class FabricanteDAOImpl extends AbstractDAOImpl implements FabricanteDAO{
         }
 		
 	}
+	
+	/**
+	 * Devuelve Optional de Integer con el ID dado.
+	 */
+	@Override
+	public Optional<Integer> getCountProductos(int id) {
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+        	conn = connectDB();
+        	
+        	ps = conn.prepareStatement("SELECT COUNT(*) FROM PRODUCTO WHERE codigo_fabricante = ?");
+        	
+        	int idx =  1;
+        	ps.setInt(idx, id);
+        	
+        	rs = ps.executeQuery();
+        	
+        	if (rs.next()) {
+        		Integer num;
+        		idx = 1;
+        		num = rs.getInt(idx);
+        		
+        		return Optional.of(num);
+        	}
+        	
+        } catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+            closeDb(conn, ps, rs);
+        }
+        
+        return Optional.empty();
+        
+	}
+	
+	/**
+	 * Devuelve una lista con todos los DTO e Integer con el ID dado.
+	 */
+	@Override
+	public List<FabricanteDTO> getAllDTOPlusCountProductos() {
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        List<FabricanteDTO> listaFab = new ArrayList<>();
+
+        try {
+        	conn = connectDB();
+        	
+        	ps = conn.prepareStatement("select f.*, count(p.codigo) as numProd from fabricante f left outer join producto p on f.codigo = p.codigo_fabricante group by f.codigo;");
+        	
+        	int idx =  1;
+        	
+        	rs = ps.executeQuery();
+        	
+        	while (rs.next()) {
+        		FabricanteDTO fab = new FabricanteDTO();
+        		fab.setCodigo(rs.getInt("codigo"));
+        		fab.setNombre(rs.getString("nombre"));
+        		fab.setNumProductos(rs.getInt("numProd"));
+        		
+        		listaFab.add(fab);
+        	}
+        	
+        } catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+            closeDb(conn, ps, rs);
+        }
+        
+        return listaFab;
+        
+	}
 
 }
