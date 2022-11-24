@@ -22,5 +22,14 @@
 		<servlet-name>ProductosServlet</servlet-name>
 		<url-pattern>/productos/*</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>UsuariosServlet</servlet-name>
+		<servlet-class>org.iesvegademijas.servlet.UsuariosServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UsuariosServlet</servlet-name>
+		<url-pattern>/usuarios/*</url-pattern>
+	</servlet-mapping>
   
 </web-app>

@@ -21,5 +21,8 @@ public interface FabricanteDAO {
 	
 	//Extra CRUD
 	public List<FabricanteDTO> getAllDTOPlusCountProductos();
+	
+	//Extra CRUD 4
+	public List<FabricanteDTO> getAllOrdenados(String ordenarPor, String modoOrdenar);
 
 }

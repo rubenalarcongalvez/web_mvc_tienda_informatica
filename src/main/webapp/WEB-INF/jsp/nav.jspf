@@ -1,0 +1,10 @@
+<!-- Menu Navigation Bar -->
+<nav class="menu">
+	<a href="/tienda_informatica">HOME</a> 
+	<a href="/tienda_informatica/fabricantes">Fabricantes</a> 
+	<a href="/tienda_informatica/productos">Productos</a>
+	<a href="/tienda_informatica/usuarios">Usuarios</a>
+	<div class="menu-log">
+		<a href="#login">LOGIN</a>
+	</div>
+</nav>

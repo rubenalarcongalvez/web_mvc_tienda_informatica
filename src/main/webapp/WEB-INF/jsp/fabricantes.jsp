@@ -5,7 +5,7 @@
 <%@page import="java.util.List"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <title>Fabricantes</title>
@@ -15,72 +15,125 @@
 	display: block;
 	clear: both;
 }
-
 </style>
-</head>
-<body>
-<body>
 
-	<div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
+<%@ include file="style.jspf"%>
+
+</head>
+
+<%@ include file="header.jspf"%>
+
+<%@ include file="nav.jspf"%>
+
+<main>
+	<div id="contenedora"
+		style="float: none; margin: 0 auto; width: 900px;">
 		<div class="clearfix">
 			<div style="float: left; width: 50%">
-				<h1>Fabricantes</h1>
+				<a href="http://localhost:8080/tienda_informatica/fabricantes">
+					<h1>Fabricantes</h1>
+				</a>
 			</div>
-			<div style="float: none;width: auto;overflow: hidden;min-height: 80px;position: relative;">
-				
-				<div style="position: absolute; left: 39%; top : 39%;">
-					
-						<form action="/tienda_informatica/fabricantes/crear">
-							<input type="submit" value="Crear">
-						</form>
-					</div>
-				
+			<div
+				style="float: none; width: auto; overflow: hidden; min-height: 80px; position: relative;">
+
+				<div style="position: absolute; top: 40%;">
+					<form method="GET" action="/tienda_informatica/fabricantes">
+						<span>Ordenar por: </span> <select name="ordenar-por">
+							<%
+							if ("codigo".equals(request.getParameter("ordenar-por")) || null == request.getParameter("ordenar-por")) {
+							%>
+							<option value="codigo" selected>Código</option>
+							<option value="nombre">Nombre</option>
+							<%
+							} else {
+							%>
+							<option value="codigo">Código</option>
+							<option value="nombre" selected>Nombre</option>
+							<%
+							}
+							%>
+						</select> <select name="modo-ordenar">
+							<%
+							if ("asc".equals(request.getParameter("modo-ordenar")) || null == request.getParameter("modo-ordenar")) {
+							%>
+							<option value="asc" selected>Asc</option>
+							<option value="desc">Desc</option>
+							<%
+							} else {
+							%>
+							<option value="asc">Asc</option>
+							<option value="desc" selected>Desc</option>
+							<%
+							}
+							%>
+						</select> <input type="submit" value="Ordenar"
+							style="background-color: lightblue; border-radius: 5px;">
+					</form>
+				</div>
+
+				<div style="position: absolute; left: 80%; top: 40%;">
+
+					<form action="/tienda_informatica/fabricantes/crear">
+						<input type="submit" value="Crear"
+							style="background-color: lightgreen; border-radius: 5px;">
+					</form>
+				</div>
+
 			</div>
 		</div>
 		<div class="clearfix">
-			<hr/>
+			<hr />
 		</div>
 		<div class="clearfix">
-			<div style="float: left;width: 25%">Código</div>
-			<div style="float: left;width: 25%">Nombre</div>
-			<div style="float: left;width: 25%">Nº productos</div>
-			<div style="float: none;width: auto;overflow: hidden;">Acción</div>
+			<div style="float: left; width: 25%">Código</div>
+			<div style="float: left; width: 25%">Nombre</div>
+			<div style="float: left; width: 25%">Nº productos</div>
+			<div style="float: none; width: auto; overflow: hidden;">Acción</div>
 		</div>
 		<div class="clearfix">
-			<hr/>
+			<hr />
 		</div>
-	<% 
-        if (request.getAttribute("listaFabricantes") != null) {
-            List<FabricanteDTO> listaFabricante = (List<FabricanteDTO>)request.getAttribute("listaFabricantes");
-            
-            for (FabricanteDTO fabricante : listaFabricante) {
-    %>
+		<%
+		if (request.getAttribute("listaFabricantes") != null) {
+			List<FabricanteDTO> listaFabricante = (List<FabricanteDTO>) request.getAttribute("listaFabricantes");
+
+			for (FabricanteDTO fabricante : listaFabricante) {
+		%>
 
 		<div style="margin-top: 6px;" class="clearfix">
-			<div style="float: left;width: 25%"><%= fabricante.getCodigo()%></div>
-			<div style="float: left;width: 25%"><%= fabricante.getNombre()%></div>
-			<div style="float: left;width: 25%"><%= fabricante.getNumProductos()%></div>
-			<div style="float: none;width: auto;overflow: hidden;">
-				<form action="/tienda_informatica/fabricantes/<%= fabricante.getCodigo()%>" style="display: inline;">
-    				<input type="submit" value="Ver Detalle" />
+			<div style="float: left; width: 25%"><%=fabricante.getCodigo()%></div>
+			<div style="float: left; width: 25%"><%=fabricante.getNombre()%></div>
+			<div style="float: left; width: 25%"><%=fabricante.getNumProductos()%></div>
+			<div style="float: none; width: auto; overflow: hidden;">
+				<form
+					action="/tienda_informatica/fabricantes/<%=fabricante.getCodigo()%>"
+					style="display: inline;">
+					<input type="submit" value="Ver Detalle" />
 				</form>
-				<form action="/tienda_informatica/fabricantes/editar/<%= fabricante.getCodigo()%>" style="display: inline;">
-    				<input type="submit" value="Editar" />
+				<form
+					action="/tienda_informatica/fabricantes/editar/<%=fabricante.getCodigo()%>"
+					style="display: inline;">
+					<input type="submit" value="Editar" />
 				</form>
-				<form action="/tienda_informatica/fabricantes/borrar/" method="post" style="display: inline;">
-					<input type="hidden" name="__method__" value="delete"/>
-					<input type="hidden" name="codigo" value="<%= fabricante.getCodigo()%>"/>
-    				<input type="submit" value="Eliminar" />
+				<form action="/tienda_informatica/fabricantes/borrar/" method="post"
+					style="display: inline;">
+					<input type="hidden" name="__method__" value="delete" /> <input
+						type="hidden" name="codigo" value="<%=fabricante.getCodigo()%>" />
+					<input type="submit" value="Eliminar" />
 				</form>
 			</div>
 		</div>
-	<% 
-            }
-        } else { 
-    %>
+		<%
+		}
+		} else {
+		%>
 		No hay registros de fabricante
-	<% } %>
+		<%
+		}
+		%>
 	</div>
-</body>
+</main>
+<%@ include file="footer.jspf"%>
 </body>
 </html>

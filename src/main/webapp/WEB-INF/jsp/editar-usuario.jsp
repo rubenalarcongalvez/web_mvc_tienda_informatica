@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="org.iesvegademijas.model.Producto"%>
+<%@page import="org.iesvegademijas.model.Usuario"%>
 <%@page import="java.util.Optional"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Detalle Producto</title>
+<title>Detalle Usuario</title>
 <style>
 .clearfix::after {
 	content: "";
@@ -28,11 +28,11 @@
 
 		<div id="contenedora"
 			style="float: none; margin: 0 auto; width: 900px;">
-			<form action="/tienda_informatica/productos/editar/" method="post">
+			<form action="/tienda_informatica/usuarios/editar/" method="post">
 				<input type="hidden" name="__method__" value="put" />
 				<div class="clearfix">
 					<div style="float: left; width: 50%">
-						<h1>Editar Producto</h1>
+						<h1>Editar Usuario</h1>
 					</div>
 					<div
 						style="float: none; width: auto; overflow: hidden; min-height: 80px; position: relative;">
@@ -49,41 +49,49 @@
 				</div>
 
 				<%
-				Optional<Producto> optProd = (Optional<Producto>) request.getAttribute("producto");
-				if (optProd.isPresent()) {
+				Optional<Usuario> optUsr = (Optional<Usuario>) request.getAttribute("usuario");
+				if (optUsr.isPresent()) {
 				%>
 
 				<div style="margin-top: 6px;" class="clearfix">
 					<div style="float: left; width: 50%">
-						<label>Código</label>
+						<label>ID</label>
 					</div>
 					<div style="float: none; width: auto; overflow: hidden;">
-						<input style="border: none" name="codigo"
-							value="<%=optProd.get().getCodigo()%>" readonly="readonly" />
+						<input style="border: none" name="id"
+							value="<%=optUsr.get().getId()%>" readonly="readonly" />
 					</div>
 				</div>
 				<div style="margin-top: 6px;" class="clearfix">
 					<div style="float: left; width: 50%">
-						<label>Nombre</label>
+						<label>Nombre de usuario</label>
 					</div>
-					<div style="float: none; width: auto; overflow: hidden;">
-						<input name="nombre" value="<%=optProd.get().getNombre()%>" />
+					<div style="float: none; width: auto; overflow: hidden; margin-bottom: 5px;">
+						<input name="nombre" value="<%=optUsr.get().getNombre()%>" />
 					</div>
 				</div>
 				<div style="margin-top: 6px;" class="clearfix">
 					<div style="float: left; width: 50%">
-						<label>Precio</label>
+						<label>Password (sin hashear)</label>
 					</div>
-					<div style="float: none; width: auto; overflow: hidden;">
-						<input name="precio" value="<%=optProd.get().getPrecio()%>" />
+					<div style="float: none; width: auto; overflow: hidden; margin-bottom: 5px;">
+						<input name="password" />
 					</div>
+				</div>
+				<div style="float: left; width: 50%">Rol</div>
+					<div style="float: none; width: auto; overflow: hidden; margin-bottom: 5px;">
+						<select name="rol">
+							<option value="cliente" selected>cliente</option>
+							<option value="vendedor">vendedor</option>
+							<option value="administrador">administrador</option>
+						</select>
 				</div>
 
 				<%
 				} else {
 				%>
 
-				request.sendRedirect("productos/");
+				request.sendRedirect("usuarios/");
 
 				<%
 				}

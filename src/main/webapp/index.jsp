@@ -1,12 +1,18 @@
 <html>
 <head>
-<title>Redirigiendo...</title>
+<title>Tienda Informática</title>
+
+<%@ include file="WEB-INF/jsp/style.jspf"%>
 </head>
 <body>
-Redirigiendo. Por favor, espere...
 
-<%
-   response.sendRedirect("/tienda_informatica/fabricantes");
-%>
+	<%@ include file="WEB-INF/jsp/header.jspf"%>
+
+	<%@ include file="WEB-INF/jsp/nav.jspf"%>
+
+	<%@ include file="WEB-INF/jsp/main.jspf"%>
+
+	<%@ include file="WEB-INF/jsp/footer.jspf"%>
+
 </body>
 </html>

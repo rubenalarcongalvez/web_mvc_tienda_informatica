@@ -28,7 +28,7 @@ public class FabricantesServlet extends HttpServlet {
 
 		RequestDispatcher dispatcher;
 
-		String pathInfo = request.getPathInfo(); //
+		String pathInfo = request.getPathInfo();
 
 		if (pathInfo == null || "/".equals(pathInfo)) {
 			FabricanteDAO fabDAO = new FabricanteDAOImpl();
@@ -39,10 +39,54 @@ public class FabricantesServlet extends HttpServlet {
 
 			var listafabDTO = fabDAO.getAllDTOPlusCountProductos();
 
-			request.setAttribute("listaFabricantes", listafabDTO);
-			dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/fabricantes.jsp");
+			String ordenarPor = request.getParameter("ordenar-por");
+			String modoOrdenar = request.getParameter("modo-ordenar");
 
+			if (ordenarPor != null) {
+//
+//				// GET
+//				// /fabricantes?ordenar-por=codigo&modo-ordenar=asc
+//				// /fabricantes?ordenar-por=codigo&modo-ordenar=desc
+//				// /fabricantes?ordenar-por=nombre&modo-ordenar=asc
+//				// /fabricantes?ordenar-por=nombre&modo-ordenar=desc
+//
+//				var listaOrdenada = listafabDTO;
+//
+//				if (modoOrdenar.equals("desc")) {
+//					if (ordenarPor.equals("nombre")) {
+//						listaOrdenada = listaOrdenada.stream()
+//								 .sorted((f1, f2) -> f2.getNombre().compareToIgnoreCase(f1.getNombre())) //nombre desc
+//								 .toList();
+//					} else { // Predeterminado codigo
+//						listaOrdenada = listaOrdenada.stream()
+//								 .sorted((f1, f2) -> f2.getCodigo() - f1.getCodigo()) //codigo desc
+//								 .toList();
+//					}
+//				} else { // Predeterminado asc
+//					if (ordenarPor.equals("nombre")) {
+//						listaOrdenada = listaOrdenada.stream()
+//								 .sorted((f1, f2) -> f1.getNombre().compareToIgnoreCase(f2.getNombre())) //nombre asc
+//								 .toList();
+//					} else { // Predeterminado codigo
+//						listaOrdenada = listaOrdenada.stream()
+//													 .sorted((f1, f2) -> f1.getCodigo() - f2.getCodigo()) //codigo asc
+//													 .toList();
+//					}
+//				}
+//
+//			}
+				// Método CRUD 4
+
+				var listaOrdenada = fabDAO.getAllOrdenados(ordenarPor, modoOrdenar);
+
+				request.setAttribute("listaFabricantes", listaOrdenada);
+				dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/fabricantes.jsp");
+			} else {
+				request.setAttribute("listaFabricantes", listafabDTO);
+				dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/fabricantes.jsp");
+			}
 		} else {
+
 			// GET
 			// /fabricantes/{id}
 			// /fabricantes/{id}/
