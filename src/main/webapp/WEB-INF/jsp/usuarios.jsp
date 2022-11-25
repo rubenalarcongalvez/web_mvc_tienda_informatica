@@ -3,6 +3,21 @@
 <%@page import="org.iesvegademijas.model.Usuario"%>
 <%@page import="java.util.List"%>
 
+<%
+//Si el usuario es admin, se muestra el botón, si no, no
+
+Usuario user = null; //como este ya está creado, no hace falta crearlo de nuevo para otros filtros
+
+//Si no es admin, hay que loguearse para verlo
+if (!(session != null //Seteo inline de usuario
+				&& (user = (Usuario)session.getAttribute("usuario-logueado") )!= null
+				&& "administrador".equals(user.getRol()))) {
+
+	response.sendRedirect("/tienda_informatica/usuarios/login");
+
+}
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,24 +42,36 @@
 	<%@ include file="nav.jspf"%>
 
 	<main>
-		<div id="contenedora" style="float: none; margin: 0 auto; width: 900px;">
+		<div id="contenedora"
+			style="float: none; margin: 0 auto; width: 900px;">
 			<div style="float: left; width: 50%">
-					<a href="http://localhost:8080/tienda_informatica/usuarios">
-						<h1>Usuarios</h1>
-					</a>
-				</div>
-				<div
-					style="float: none; width: auto; overflow: hidden; min-height: 80px; position: relative;">
+				<a href="http://localhost:8080/tienda_informatica/usuarios">
+					<h1>Usuarios</h1>
+				</a>
+			</div>
+			<div
+				style="float: none; width: auto; overflow: hidden; min-height: 80px; position: relative;">
 
-					<div style="position: absolute; left: 70%; top: 39%;">
-						<form action="/tienda_informatica/usuarios/crear">
-							<input style="background-color: lightgreen; border-radius: 5px"
-								type="submit" value="Crear">
-						</form>
-					</div>
+				<div style="position: absolute; left: 70%; top: 39%;">
 
+					<%
+					if (session != null //Seteo inline de usuario
+							&& (user = (Usuario) session.getAttribute("usuario-logueado")) != null
+							&& ("administrador".equals(user.getRol()))) {
+					%>
+
+					<form action="/tienda_informatica/usuarios/crear">
+						<input style="background-color: lightgreen; border-radius: 5px"
+							type="submit" value="Crear">
+					</form>
+
+					<%
+					}
+					%>
 				</div>
-			
+
+			</div>
+
 			<div class="clearfix">
 				<hr />
 			</div>
@@ -71,11 +98,19 @@
 				<div style="float: left; width: 37%"><%=usuario.getPassword()%></div>
 				<div style="float: left; width: 13%"><%=usuario.getRol()%></div>
 				<div style="float: none; width: auto; overflow: hidden;">
-					<form
-						action="/tienda_informatica/usuarios/<%=usuario.getId()%>"
+					<form action="/tienda_informatica/usuarios/<%=usuario.getId()%>"
 						style="display: inline;">
 						<input type="submit" value="Ver Detalle" />
 					</form>
+
+					<%
+					//Si el usuario es admin, se muestra el botón, si no, no
+
+					if (session != null //Seteo inline de usuario
+							&& (user = (Usuario) session.getAttribute("usuario-logueado")) != null
+							&& ("administrador".equals(user.getRol()))) {
+					%>
+
 					<form
 						action="/tienda_informatica/usuarios/editar/<%=usuario.getId()%>"
 						style="display: inline;">
@@ -84,9 +119,14 @@
 					<form action="/tienda_informatica/usuarios/borrar/" method="post"
 						style="display: inline;">
 						<input type="hidden" name="__method__" value="delete" /> <input
-							type="hidden" name="id" value="<%=usuario.getId()%>" />
-						<input type="submit" value="Eliminar" />
+							type="hidden" name="id" value="<%=usuario.getId()%>" /> <input
+							type="submit" value="Eliminar" />
 					</form>
+
+					<%
+					}
+					%>
+
 				</div>
 			</div>
 

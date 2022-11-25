@@ -72,6 +72,13 @@
 					</form>
 				</div>
 
+				<%
+				Usuario user = null; //como este ya está creado, no hace falta crearlo de nuevo para otros filtros
+
+				if (session != null //Seteo inline de usuario
+						&& (user = (Usuario) session.getAttribute("usuario-logueado")) != null && "administrador".equals(user.getRol())) {
+				%>
+
 				<div style="position: absolute; left: 80%; top: 40%;">
 
 					<form action="/tienda_informatica/fabricantes/crear">
@@ -79,6 +86,10 @@
 							style="background-color: lightgreen; border-radius: 5px;">
 					</form>
 				</div>
+
+				<%
+				}
+				%>
 
 			</div>
 		</div>
@@ -111,6 +122,13 @@
 					style="display: inline;">
 					<input type="submit" value="Ver Detalle" />
 				</form>
+				
+				<%
+
+				if (session != null //Seteo inline de usuario
+						&& (user = (Usuario) session.getAttribute("usuario-logueado")) != null && "administrador".equals(user.getRol())) {
+				%>
+
 				<form
 					action="/tienda_informatica/fabricantes/editar/<%=fabricante.getCodigo()%>"
 					style="display: inline;">
@@ -122,6 +140,11 @@
 						type="hidden" name="codigo" value="<%=fabricante.getCodigo()%>" />
 					<input type="submit" value="Eliminar" />
 				</form>
+
+				<%
+				}
+				%>
+				
 			</div>
 		</div>
 		<%

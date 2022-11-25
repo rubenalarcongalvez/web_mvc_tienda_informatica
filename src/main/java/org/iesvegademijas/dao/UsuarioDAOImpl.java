@@ -144,6 +144,50 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
 		return Optional.empty();
 
 	}
+	
+	/**
+	 * Devuelve Optional de usuario con el nombre dado.
+	 * 
+	 */
+	@Override
+	public Optional<Usuario> getUsuario(String usuario) {
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			conn = connectDB();
+
+			ps = conn.prepareStatement("SELECT * FROM usuario WHERE nombre = ?");
+
+			int idx = 1;
+			ps.setString(idx, usuario);
+
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				Usuario usr = new Usuario();
+				idx = 1;
+				usr.setId(rs.getInt(idx++));
+				usr.setNombre(rs.getString(idx++));
+				usr.setPassword(rs.getString(idx++));
+				usr.setRol(rs.getString(idx++));
+
+				return Optional.of(usr);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			closeDb(conn, ps, rs);
+		}
+
+		return Optional.empty();
+
+	}
 
 	/**
 	 * Actualiza usuario con campos del bean usuario según ID del mismo.

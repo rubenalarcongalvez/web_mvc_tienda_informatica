@@ -1,10 +1,41 @@
+<%@page import="org.iesvegademijas.model.Usuario"%>
+
 <!-- Menu Navigation Bar -->
 <nav class="menu">
-	<a href="/tienda_informatica">HOME</a> 
-	<a href="/tienda_informatica/fabricantes">Fabricantes</a> 
-	<a href="/tienda_informatica/productos">Productos</a>
+	<a href="/tienda_informatica">HOME</a> <a
+		href="/tienda_informatica/fabricantes">Fabricantes</a> <a
+		href="/tienda_informatica/productos">Productos</a>
+
+	<%
+	//Si el usuario es admin, se muestra el botón, si no, no
+
+	Usuario usr = null; //como este ya está creado, no hace falta crearlo de nuevo para otros filtros
+
+	if (session != null //Seteo inline de usuario
+			&& (usr = (Usuario) session.getAttribute("usuario-logueado")) != null
+			&& ("administrador".equals(usr.getRol()))) {
+	%>
+
 	<a href="/tienda_informatica/usuarios">Usuarios</a>
+
+	<%
+	}
+	%>
+
 	<div class="menu-log">
-		<a href="#login">LOGIN</a>
+		<%
+		if (request.getSession().getAttribute("usuario-logueado") == null) {
+		%>
+		<a href="/tienda_informatica/usuarios/login">LOGIN</a>
+		<%
+		} else {
+		%>
+		<form action="/tienda_informatica/usuarios/logout" method="post"
+			style="display: inline;">
+			<input type="submit" value="LOGOUT">
+		</form>
+		<%
+		}
+		%>
 	</div>
 </nav>

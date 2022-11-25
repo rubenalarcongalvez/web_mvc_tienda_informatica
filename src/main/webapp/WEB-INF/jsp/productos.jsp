@@ -22,9 +22,9 @@
 <body>
 <body>
 
-<%@ include file="header.jspf" %>
+	<%@ include file="header.jspf"%>
 
-<%@ include file="nav.jspf" %>
+	<%@ include file="nav.jspf"%>
 
 	<main>
 		<div id="contenedora"
@@ -49,12 +49,23 @@
 						</form>
 					</div>
 
+					<%
+					Usuario user = null; //como este ya está creado, no hace falta crearlo de nuevo para otros filtros
+
+					if (session != null //Seteo inline de usuario
+							&& (user = (Usuario) session.getAttribute("usuario-logueado")) != null && !("cliente".equals(user.getRol()))) {
+					%>
+
 					<div style="position: absolute; left: 70%; top: 39%;">
 						<form action="/tienda_informatica/productos/crear">
 							<input style="background-color: lightgreen; border-radius: 5px"
 								type="submit" value="Crear">
 						</form>
 					</div>
+
+					<%
+					}
+					%>
 
 				</div>
 			</div>
@@ -87,6 +98,13 @@
 						style="display: inline;">
 						<input type="submit" value="Ver Detalle" />
 					</form>
+					
+					<% 
+					if (session != null //Seteo inline de usuario
+							&& (user = (Usuario) session.getAttribute("usuario-logueado")) != null
+							&& !("cliente".equals(user.getRol()))) {
+					%>
+
 					<form
 						action="/tienda_informatica/productos/editar/<%=producto.getCodigo()%>"
 						style="display: inline;">
@@ -98,6 +116,11 @@
 							type="hidden" name="codigo" value="<%=producto.getCodigo()%>" />
 						<input type="submit" value="Eliminar" />
 					</form>
+
+					<%
+					}
+					%>
+					
 				</div>
 			</div>
 
@@ -125,6 +148,6 @@ p {
 </body>
 </body>
 
-<%@ include file ="footer.jspf"%>
+<%@ include file="footer.jspf"%>
 
 </html>
