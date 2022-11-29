@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Detalle Usuario</title>
+<title>Editar Usuario</title>
 <style>
 .clearfix::after {
 	content: "";
